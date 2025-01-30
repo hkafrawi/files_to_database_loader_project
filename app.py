@@ -20,6 +20,13 @@ def read_csv(file, schemas, chunksize=10_000):
     ds_name = file_path_list[-2]
     columns = get_column_names(schemas, ds_name)
     df_reader = pd.read_csv(file, names=columns, chunksize=chunksize)
+def to_sql(df, db_conn_url, ds_name):
+    df.to_sql(
+        ds_name,
+        db_conn_url,
+        if_exists="append",
+        index=False
+    )
 schemas = json.load(open("data\\retail_db\\schemas.json"))
 columns = get_column_names(schemas=schemas,ds_name='orders')
 
