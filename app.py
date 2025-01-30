@@ -6,6 +6,7 @@ import json
 import re
 import sys
 from dotenv import load_dotenv
+import glob
 
 load_dotenv()
 
@@ -20,6 +21,8 @@ def read_csv(file, schemas, chunksize=10_000):
     ds_name = file_path_list[-2]
     columns = get_column_names(schemas, ds_name)
     df_reader = pd.read_csv(file, names=columns, chunksize=chunksize)
+
+    return df_reader
 
 def to_sql(df, db_conn_url, ds_name):
     df.to_sql(
@@ -56,7 +59,7 @@ def process_files(ds_names=None):
     schemas = json.load(open(f"{src_base_dir}\\schemas.json"))
 
     if not ds_names:
-        ds_names = schemas.key()
+        ds_names = schemas.keys()
 
     for ds_name in ds_names:
         try:
