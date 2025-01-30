@@ -15,6 +15,11 @@ def get_column_names(schemas,ds_name,sorting_key="column_position"):
 
     return [col["column_name"] for col in columns]
 
+def read_csv(file, schemas, chunksize=10_000):
+    file_path_list = re.split('[/\\\]', file)
+    ds_name = file_path_list[-2]
+    columns = get_column_names(schemas, ds_name)
+    df_reader = pd.read_csv(file, names=columns, chunksize=chunksize)
 schemas = json.load(open("data\\retail_db\\schemas.json"))
 columns = get_column_names(schemas=schemas,ds_name='orders')
 
