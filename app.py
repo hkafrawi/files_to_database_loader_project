@@ -27,6 +27,18 @@ def to_sql(df, db_conn_url, ds_name):
         if_exists="append",
         index=False
     )
+def db_loader(src_base_dir, db_conn_url, ds_name):
+    schemas = json.load(open(f'{src_base_dir}\\schemas.json'))
+    files = glob.glob(f"{src_base_dir}\\{ds_name}\\part-*")
+    if len(files) == 0:
+        raise NameError(f"No files found for {ds_name}")
+    
+    for file in files:
+        df_reader = read_csv(file, schemas)
+        for i, df in enumerate(df_reader):
+            print(f"Populating chunk {i} of {ds_name}")
+            to_sql(df,db_conn_url, ds_name)
+
 schemas = json.load(open("data\\retail_db\\schemas.json"))
 columns = get_column_names(schemas=schemas,ds_name='orders')
 
