@@ -1,5 +1,8 @@
 import os
 from IPython import get_ipython
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ipython = get_ipython()
 

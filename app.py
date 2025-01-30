@@ -5,11 +5,9 @@ import pandas as pd
 import json
 import re
 import sys
+from dotenv import load_dotenv
 
-config = configparser.ConfigParser()
-config.read("config.ini")
-
-
+load_dotenv()
 
 def get_column_names(schemas,ds_name,sorting_key="column_position"):
     column_details = schemas[ds_name]
