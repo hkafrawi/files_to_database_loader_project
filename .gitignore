@@ -175,3 +175,6 @@ data
 
 # Config file
 config.ini
+
+# Launch files for testing
+.vscode
