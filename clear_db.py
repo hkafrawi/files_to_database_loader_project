@@ -18,6 +18,6 @@ conn_url = f"{database}://{username}:{password}@{host}:{portnumber}/{db_name}"
 ipython.run_line_magic("load_ext","sql")
 ipython.run_line_magic("config","SqlMagic.style = \'_DEPRECATED_DEFAULT\'")
 ipython.run_line_magic("env",f"DATABASE_URL={conn_url}")
-# ipython.run_line_magic("sql","TRUNCATE TABLE orders")
-ipython.run_line_magic("sql","SELECT * FROM ORDERS LIMIT 10")
+ipython.run_line_magic("sql","TRUNCATE TABLE orders, categories, customers, departments, order_items, products")
+ipython.run_line_magic("sql","SELECT * FROM products LIMIT 10")
 
