@@ -25,6 +25,8 @@ def read_csv(file, schemas, chunksize=10_000):
     return df_reader
 
 def to_sql(df, db_conn_url, ds_name):
+    if ds_name == "products":
+        df["product_description"] = df["product_description"].fillna("No description available")
     df.to_sql(
         ds_name,
         db_conn_url,
