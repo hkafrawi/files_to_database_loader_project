@@ -7,6 +7,7 @@ import re
 import sys
 from dotenv import load_dotenv
 import glob
+import multiprocessing
 
 load_dotenv()
 
@@ -78,9 +79,12 @@ def process_files(ds_names=None):
     if not ds_names:
         ds_names = schemas.keys()
 
+    pprocesses = len(ds_names) if len(ds_names) < 8 else 8
+    pool = multiprocessing.Pool(pprocesses)
+    pd_args = []
     for ds_name in ds_names:
-        process_dataset((src_base_dir, conn_url, ds_name))
-        
+        pd_args.append((src_base_dir, conn_url, ds_name))
+    pool.map(process_dataset, pd_args)
         
 if __name__ == "__main__":
     if len(sys.argv) == 2:
