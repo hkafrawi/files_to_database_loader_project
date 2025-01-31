@@ -46,6 +46,21 @@ def db_loader(src_base_dir, db_conn_url, ds_name):
             print(f"Populating chunk {i} of {ds_name}")
             to_sql(df,db_conn_url, ds_name)
 
+def process_dataset(args):
+    src_base_dir = args[0]
+    conn_url = args[1]
+    ds_name = args[2]
+
+    try:
+        print(f"Processing {ds_name}")
+        db_loader(src_base_dir, conn_url, ds_name)
+    except NameError as e:
+        print(e)
+        pass
+    except Exception as e:
+        print(e)
+        pass
+    
 def process_files(ds_names=None):
     database = os.environ.get("DB_TYPE")
     username = os.environ.get("DB_USER")
@@ -64,15 +79,8 @@ def process_files(ds_names=None):
         ds_names = schemas.keys()
 
     for ds_name in ds_names:
-        try:
-            print(f"Processing {ds_name}")
-            db_loader(src_base_dir, conn_url, ds_name)
-        except NameError as e:
-            print(e)
-            pass
-        except Exception as e:
-            print(e)
-            pass
+        process_dataset((src_base_dir, conn_url, ds_name))
+        
         
 if __name__ == "__main__":
     if len(sys.argv) == 2:
